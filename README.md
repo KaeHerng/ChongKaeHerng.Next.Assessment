@@ -72,20 +72,22 @@ scr
 1. Clone the repository:
 git clone git@github.com:KaeHerng/ChongKaeHerng.Next.Assessment.git
 
-2. cd into Repo
+2. cd into Repo: 
 cd REPO_NAME
 
-3. check branch
+3. check branch: 
 git branch -a
 
-4. Checkout to the branch in this case main
+4. Checkout to the branch in this case main: 
 git checkout main
 
-5. install components
+5. install components: 
 npm install
 
-6. run the project
+6. Create .env and Copy values inside .env.example 
+
+7. run the project: 
 npm run dev
 
-7. use localhost 3000 to run this project on browser
+8. use localhost 3000 to run this project on browser: 
 http://localhost:3000
