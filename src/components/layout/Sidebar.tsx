@@ -2,14 +2,19 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation'; // ← 1. 添加这个导入
+import { usePathname } from 'next/navigation';
 import { useAppSelector } from '@/store/hooks';
 
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import Inventory2Icon from '@mui/icons-material/Inventory2';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import PublicIcon from '@mui/icons-material/Public';
+
 const menuItems = [
-  { label: 'Dashboard', path: '/Dashboard', icon: '🏠' },
-  { label: 'Products', path: '/Products', icon: '📦' },
-  { label: 'Orders', path: '/Orders', icon: '🛒' },
-  { label: 'Users', path: '/users', role: 'admin', icon: '👤' },
+  { label: 'Dashboard', path: '/Dashboard', icon: <DashboardIcon fontSize="small" /> },
+  { label: 'Products', path: '/Products', icon: <Inventory2Icon fontSize="small" /> },
+  { label: 'Orders', path: '/Orders', icon: <ShoppingCartIcon fontSize="small" /> },
+  { label: 'Countries', path: '/CountryInfo', icon: <PublicIcon fontSize="small" /> },
 ];
 
 type SidebarProps = {
@@ -62,7 +67,7 @@ export default function Sidebar({ mobileOpen = false, onClose }: SidebarProps) {
 
         <ul>
           {menuItems.map((item) => {
-            if (item.role && item.role !== user?.role) return null;
+            // if (item.role && item.role !== user?.role) return null;
             const isActive = pathname === item.path;
             return (
               <li key={item.path}>

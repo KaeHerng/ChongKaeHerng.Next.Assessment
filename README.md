@@ -35,6 +35,12 @@ scr
 => api
     index.ts (where i implement all the API route)
 => app
+    /api
+        /countries
+            - route.ts (use Nextjs API Routes to call restcountries countries info public API)
+    /CountryInfo
+        # CountryInfo.css
+        - page.tsx   
     /Dashboard
         # Dashboard.css
         - page.tsx
