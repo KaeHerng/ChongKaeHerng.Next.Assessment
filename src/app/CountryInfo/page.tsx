@@ -45,10 +45,14 @@ export default function CountriesPage() {
   };
 
   const filtered = useMemo(() => {
-    return countries.filter((c) =>
-      c.name.toLowerCase().includes(search.toLowerCase())
-    );
-  }, [countries, search]);
+    return countries.filter((item) => {
+      const MatchText = 
+        item.name.toLowerCase().includes(search.toLowerCase()) ||
+        item.code.toLowerCase().includes(search.toLowerCase())
+
+        return MatchText;
+    })
+  }, [countries, search])
 
   return (
     <AdminLayout>
@@ -56,10 +60,10 @@ export default function CountriesPage() {
         <div className="countries-header">
           <div className="countries-title text-lg">Countries</div>
 
-          <div className="countries-filters">
+          <div className="countries-filters text-sm">
             <TextField
               size="small"
-              placeholder="Search country..."
+              placeholder="Search country or Code..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -97,7 +101,7 @@ export default function CountriesPage() {
             {!loading && filtered.length > 0 && (
               <div className="table-body text-sm">
                 {filtered.map((country) => (
-                  <div key={country.code} className="table-row">
+                  <div key={country.code} className="table-row text-sm">
                     <div style={{ minWidth: 80, width: 'calc(100%/2)' }}>
                       {country.flag ? (
                         <img

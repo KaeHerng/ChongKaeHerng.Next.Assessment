@@ -15,12 +15,12 @@ export default function Topbar({ pageTitle }: { pageTitle?: string }) {
   const user = useAppSelector((s) => s.auth.user);
 
   useEffect(() => {
-    const handleResize = () => {
+    const handleSize = () => {
       setIsMobile(window.innerWidth < 768);
     };
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    handleSize();
+    window.addEventListener('resize', handleSize);
+    return () => window.removeEventListener('resize', handleSize);
   }, []);
 
   const handleLogout = () => {

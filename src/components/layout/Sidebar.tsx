@@ -29,14 +29,14 @@ export default function Sidebar({ mobileOpen = false, onClose }: SidebarProps) {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const handleResize = () => {
+    const handleSize = () => {
       const mobile = window.innerWidth < 768;
       setIsMobile(mobile);
       if (!mobile) setCollapsed(false);
     };
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    handleSize();
+    window.addEventListener('resize', handleSize);
+    return () => window.removeEventListener('resize', handleSize);
   }, []);
 
   const handleLinkClick = () => {
@@ -52,8 +52,7 @@ export default function Sidebar({ mobileOpen = false, onClose }: SidebarProps) {
       <div
         className={`sidebar ${collapsed ? 'collapsed' : ''} ${
           isMobile ? (mobileOpen ? 'open' : 'hidden-mobile') : ''
-        }`}
-      >
+        }`}>
         <div className="sidebar-title text-base">
           {!collapsed ? 'Admin Panel' : 'AP'}
           {!isMobile && (

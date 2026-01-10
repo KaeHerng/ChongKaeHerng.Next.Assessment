@@ -69,6 +69,7 @@ scr
 
 **Notes:**
 
+- https://restcountries.com/#endpoints-all refer this link to get the countries API
 - Each page has its own folder for modularity
 - Shared components (e.g., layout) are in `components/`
 - CSS is per-page to isolate on every folder page styling for easy to maintain purpose

@@ -11,34 +11,35 @@ import {
     TextField,
     Snackbar, Alert,
 } from '@mui/material';
-import { use, useEffect, useMemo, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useEffect, useMemo, useState } from 'react';
+import { useForm, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import AdminLayout from '@/components/layout/AdminLayout';
 import { fetchProducts, addProduct, updateProduct, deleteProduct } from '../../api';
+import ImageSlider from '@/components/ImageSlider';
 
 type ProductStatus = 'active' | 'inactive';
 
 interface Product {
-    id: number;
-    name: string;
-    description: string;
-    category: string;
-    price: number;
-    stock: number;
-    status: ProductStatus;
-    image?: string;
+  id: number;
+  name: string;
+  description: string;
+  category: string;
+  price: number;
+  stock: number;
+  status: ProductStatus;
+  images?: string[];
 }
 
 const productobject = z.object({
-    name: z.string().min(2),
-    description: z.string().min(5),
-    category: z.string(),
-    price: z.number().min(0),
-    stock: z.number().min(0),
-    status: z.enum(['active', 'inactive']),
-    image: z.string().url('Invalid URL').optional(),
+  name: z.string().min(2),
+  description: z.string().min(5),
+  category: z.string(),
+  price: z.number().min(0),
+  stock: z.number().min(0),
+  status: z.enum(['active', 'inactive']),
+  images: z.any().optional(),
 });
 
 type FormData = z.infer<typeof productobject>;
@@ -51,9 +52,19 @@ export default function ProductsPage() {
     const [editing, setEditing] = useState<Product | null>(null);
     const [search, setSearch] = useState('');
     const [status, setStatus] = useState<'all' | ProductStatus>('all');
+    const [imagePreviews, setImagePreviews] = useState<string[]>([]);
 
     const form = useForm<FormData>({
         resolver: zodResolver(productobject),
+        defaultValues: {
+          name: '',
+          description: '',
+          category: '',
+          price: 0,
+          stock: 0,
+          status: 'active',
+          images: [],
+        },
     });
 
     useEffect(() => {
@@ -74,7 +85,8 @@ export default function ProductsPage() {
                     price: p.price,
                     stock: p.stock,
                     status: Math.random() > 0.5 ? 'active' : 'inactive',
-                    image: p.images[0] || '',
+                    // image: p.images[0] || '',
+                    images: Array.isArray(p.images) ? p.images : [],
                 }));
                 setProducts(mapped);
             }
@@ -84,28 +96,43 @@ export default function ProductsPage() {
     }
 
     const filtered = useMemo(() => {
-        return products.filter((p) => {
+        return products.filter((item) => {
             const matchText =
-                p.name.toLowerCase().includes(search.toLowerCase()) ||
-                p.category.toLowerCase().includes(search.toLowerCase());
+                item.name.toLowerCase().includes(search.toLowerCase()) ||
+                item.category.toLowerCase().includes(search.toLowerCase());
 
             const matchStatus =
-                status === 'all' ? true : p.status === status;
+                status === 'all' ? true : item.status === status;
 
             return matchText && matchStatus;
         });
     }, [products, search, status]);
 
     const setOpenAddProduct = () => {
-        form.reset();
+        form.reset({
+          name: '',
+          description: '',
+          category: '',
+          price: 0,
+          stock: 0,
+          status: 'active',
+          images: [],
+        });
+        setImagePreviews([]);
         setEditing(null);
         setOpen(true);
     }
 
     const onSubmit = async (data: FormData) => {
       try {
+
+        const mergedData = {
+          ...data,
+          images: imagePreviews.length > 0 ? imagePreviews : data.images,
+        };
+
         if (editing) {
-          const Update = await updateProduct(editing.id, data);
+          const Update = await updateProduct(editing.id, mergedData);
 
         //   console.log('Update', Update)
           if (Update.success) {
@@ -113,7 +140,7 @@ export default function ProductsPage() {
             // await getProducts(); <= shoulde be call like this but since this is fake api unable to really update 
 
             setProducts((prev) =>
-              prev.map((p) => (p.id === editing.id ? { ...p, ...data } : p))
+              prev.map((p) => (p.id === editing.id ? { ...p, ...mergedData } : p))
             );
             setMessage('Product updated successfully!');
             setshowmessage('success');
@@ -123,13 +150,13 @@ export default function ProductsPage() {
             setshowmessage('error');
           }
         } else {
-          const Add = await addProduct(data);
+          const Add = await addProduct(mergedData);
           console.log('Add', Add)
           if (Add.success) {
             // await getProducts(); <= shoulde be call like 
             const newProduct = {
               id: Add.data.id || Date.now(),
-              ...data,
+              ...mergedData,
             };
             setProducts((prev) => [...prev, newProduct]);
             setMessage('Product added successfully!');
@@ -146,14 +173,30 @@ export default function ProductsPage() {
         setOpen(false);
       } catch (error) {
         console.error('Submit product failed:', error);
+      } finally {
+        setImagePreviews([]);
       }
     };
 
     const onEdit = (p: Product) => {
         setEditing(p);
-        form.reset(p);
+        form.reset({
+          name: p.name,
+          description: p.description,
+          category: p.category,
+          price: p.price,
+          stock: p.stock,
+          status: p.status ?? 'active',
+          images: p.images ?? [],
+        });
         setOpen(true);
     };
+    
+
+    const closeModal = () => {
+        setOpen(false)
+        setImagePreviews([]);
+    }
 
     const onDelete = async (id: number) => {
         try {
@@ -224,12 +267,8 @@ export default function ProductsPage() {
                             {filtered.map((product) => (
                                 <div key={product.id} className="table-row">
                                     <div style={{ minWidth: 100, width: 'calc(100%/2)'}}>
-                                      {product.image ? (
-                                        <img
-                                          src={product.image}
-                                          alt={product.name}
-                                          style={{ width: 50, height: 50, objectFit: 'cover', borderRadius: 6 }}
-                                        />
+                                      {product.images ? (
+                                        <ImageSlider images={product.images || []} />
                                       ) : (
                                         <div style={{ width: 50, height: 50, background: '#eee', borderRadius: 6 }} />
                                       )}
@@ -259,43 +298,64 @@ export default function ProductsPage() {
                 </div>
 
                 <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth="sm">
-                    <DialogTitle>
-                        {editing ? 'Edit Product' : 'New Product'}
-                    </DialogTitle>
-
-                    <DialogContent>
-                        <div className="form-grid">
-                            <TextField label="Image URL" {...form.register('image')} />
-                            <TextField label="Name" {...form.register('name')} />
-                            <TextField label="Category" {...form.register('category')} />
-                            <TextField
-                                className="form-grid full"
-                                label="Description"
-                                {...form.register('description')}
-                            />
-                            <TextField
-                                label="Price"
-                                type="number"
-                                {...form.register('price', { valueAsNumber: true })}
-                            />
-                            <TextField
-                                label="Stock"
-                                type="number"
-                                {...form.register('stock', { valueAsNumber: true })}
-                            />
-                            <TextField select label="Status" {...form.register('status')}>
-                                <MenuItem value="active">Active</MenuItem>
-                                <MenuItem value="inactive">Inactive</MenuItem>
-                            </TextField>
-                        </div>
-                    </DialogContent>
-
-                    <DialogActions>
-                        <Button onClick={() => setOpen(false)}>Cancel</Button>
-                        <Button variant="contained" onClick={form.handleSubmit(onSubmit)}>
-                            Save
-                        </Button>
-                    </DialogActions>
+                  <DialogTitle>{editing ? 'Edit Product' : 'New Product'}</DialogTitle>
+                  <DialogContent>
+                    <div className="form-grid">
+                      <Button variant="outlined" component="label">
+                        Upload Images
+                        <input
+                          hidden
+                          multiple
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => {
+                            const files = Array.from(e.target.files || []);
+                            setImagePreviews(files.map((f) => URL.createObjectURL(f)));
+                          }}
+                        />
+                      </Button>
+                      
+                      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                        {imagePreviews.map((img, i) => (
+                          <img key={i} src={img} width={60} height={60} />
+                        ))}
+                      </div>
+                    
+                      <TextField label="Name" {...form.register('name')} />
+                      <TextField label="Category" {...form.register('category')} />
+                      <TextField label="Description" {...form.register('description')} />
+                      <TextField
+                        label="Price"
+                        type="number"
+                        {...form.register('price', { valueAsNumber: true })}
+                      />
+                      <TextField
+                        label="Stock"
+                        type="number"
+                        {...form.register('stock', { valueAsNumber: true })}
+                      />
+                      <Controller
+                        control={form.control}
+                        name="status"
+                        render={({ field }) => (
+                          <TextField
+                            select
+                            label="Status"
+                            fullWidth
+                            {...field}>
+                            <MenuItem value="active">Active</MenuItem>
+                            <MenuItem value="inactive">Inactive</MenuItem>
+                          </TextField>
+                        )}
+                      />
+                    </div>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={() => closeModal()}>Cancel</Button>
+                    <Button variant="contained" onClick={form.handleSubmit(onSubmit)}>
+                      Save
+                    </Button>
+                  </DialogActions>
                 </Dialog>
 
                 <Snackbar

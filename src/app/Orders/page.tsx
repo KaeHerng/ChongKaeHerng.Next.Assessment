@@ -42,9 +42,9 @@ export default function OrdersPage() {
   };
 
   const filteredOrders = useMemo(() => {
-    return orders.filter((o) => {
-      const matchText = o.customerName.toLowerCase().includes(search.toLowerCase());
-      const matchStatus = status === 'all' ? true : o.status === status;
+    return orders.filter((item) => {
+      const matchText = item.customerName.toLowerCase().includes(search.toLowerCase());
+      const matchStatus = status === 'all' ? true : item.status === status;
       return matchText && matchStatus;
     });
   }, [orders, search, status]);
