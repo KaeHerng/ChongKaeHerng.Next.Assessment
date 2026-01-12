@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import { useAppDispatch } from '@/store/hooks';
 import { loginSuccess } from '@/store/authSlice';
 import { useState } from 'react';
-import { Login } from '../../api';
+import { Login } from '../../../api';
 import './login.css';
 
 const loginSchema = z.object({
@@ -60,7 +60,7 @@ export default function LoginPage() {
             })
           );
         
-          router.replace('/Dashboard');
+          router.replace('/Pages/Dashboard');
         }, 600);
       }
 

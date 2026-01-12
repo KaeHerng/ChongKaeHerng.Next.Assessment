@@ -12,9 +12,9 @@ export default function HomePage() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      router.replace('/Dashboard');
+      router.replace('/Pages/Dashboard');
     } else {
-      router.replace('/Login');
+      router.replace('/Pages/Login');
     }
   }, [isAuthenticated, router]);
 

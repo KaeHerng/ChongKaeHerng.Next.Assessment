@@ -1,4 +1,19 @@
+:root {
+  --foreground: #171717;
+  --cardBackground: #fff;
+  --labelcolor: #666;
+  --chartback: white;
+}
+
+html[data-theme='dark'] {
+  --foreground: #ededed;
+  --cardBackground: #1d1d1d;
+  --labelcolor: #d6d6d6;
+  --chartback: #1d1d1d;
+}
+
 .dashboard-page {
+  color: var(--foreground);
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -12,27 +27,31 @@
 }
 
 .stat-card {
+  background-color: var(--cardBackground) !important;
   padding: 20px;
   border-radius: 14px;
-  background: #fff;
 }
 
 .stat-label {
-  color: #666;
+  color: var(--labelcolor);
   margin-bottom: 8px;
 }
 
 .stat-value {
+  color: var(--foreground);
   font-weight: 600;
 }
 
 /* Chart */
 .chart-card {
+  color: var(--foreground) !important;
+  background-color: var(--chartback) !important;
   padding: 20px;
   border-radius: 14px;
 }
 
 .chart-header {
+  color: var(--foreground) !important;
   display: flex;
   justify-content: space-between;
   margin-bottom: 16px;

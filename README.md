@@ -38,22 +38,27 @@ scr
     /api
         /countries
             - route.ts (use Nextjs API Routes to call restcountries countries info public API)
-    /CountryInfo
-        # CountryInfo.css
-        - page.tsx   
-    /Dashboard
-        # Dashboard.css
-        - page.tsx
-    /Login
-        # login.css
-        - page.tsx
-    /Orders
-        #order.css
-        - page.tsx
-        - mockorders.ts (where i do mock data for orders details)
-    /Products
-        # products.css
-        - page.tsx
+    /Pages
+        /CountryInfo
+            # CountryInfo.css
+            - page.tsx   
+        /Dashboard
+            # Dashboard.css
+            - page.tsx
+        /Login
+            # login.css
+            - page.tsx
+        /Orders
+            #order.css
+            - page.tsx
+            - mockorders.ts (where i do mock data for orders details)
+        /Products
+            # products.css
+            - page.tsx
+        /Users
+            # users.css
+            - mockUsers.ts (where i do mock data for user details)
+            - page.tsx
     # globals.css (all components and global css put in here)
     - layout.tsx (Main Startup layout)
     - page.tsx (Main Startup Page)
@@ -62,6 +67,8 @@ scr
         - AdminLayout.tsx (main Layout display for all Admin pages)
         - Sidebar.tsx
         - Topbar.tsx
+=> context
+    - ThemeContext.tsx
 => store
     - authSlice.ts
     - hooks.ts

@@ -9,12 +9,14 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import Inventory2Icon from '@mui/icons-material/Inventory2';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import PublicIcon from '@mui/icons-material/Public';
+import PeopleIcon from '@mui/icons-material/People';
 
 const menuItems = [
-  { label: 'Dashboard', path: '/Dashboard', icon: <DashboardIcon fontSize="small" /> },
-  { label: 'Products', path: '/Products', icon: <Inventory2Icon fontSize="small" /> },
-  { label: 'Orders', path: '/Orders', icon: <ShoppingCartIcon fontSize="small" /> },
-  { label: 'Countries', path: '/CountryInfo', icon: <PublicIcon fontSize="small" /> },
+  { label: 'Dashboard', path: '/Pages/Dashboard', icon: <DashboardIcon fontSize="small" /> },
+  { label: 'Products', path: '/Pages/Products', icon: <Inventory2Icon fontSize="small" /> },
+  { label: 'Orders', path: '/Pages/Orders', icon: <ShoppingCartIcon fontSize="small" /> },
+  { label: 'Countries', path: '/Pages/CountryInfo', icon: <PublicIcon fontSize="small" /> },
+  { label: 'Users', path: '/Pages/Users', icon: <PeopleIcon fontSize="small" /> },
 ];
 
 type SidebarProps = {

@@ -5,9 +5,11 @@ import { AppBar, Box, Toolbar, Typography, Button, Avatar } from '@mui/material'
 import { useRouter } from 'next/navigation';
 import Sidebar from './Sidebar';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { useTheme } from '@/context/ThemeContext';
 import { logout } from '@/store/authSlice';
 
 export default function Topbar({ pageTitle }: { pageTitle?: string }) {
+  const { theme, toggleTheme } = useTheme();
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -25,19 +27,12 @@ export default function Topbar({ pageTitle }: { pageTitle?: string }) {
 
   const handleLogout = () => {
     dispatch(logout());
-    router.replace('/Login');
+    router.replace('/Pages/Login');
   };
 
   return (
     <>
-      <AppBar
-        position="sticky"
-        elevation={2}
-        sx={{
-          bgcolor: '#ffffffff',
-          color: '#333',
-          zIndex: 1200,
-        }}>
+      <div className='Topbar'>
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
             <button
@@ -54,19 +49,32 @@ export default function Topbar({ pageTitle }: { pageTitle?: string }) {
               }}>
               ☰
             </button>
-            <div className='text-lg'>
+            <div className='text-lg' style={{ color: 'white' }}>
               {pageTitle || 'Admin Panel'}
             </div>
           </Box>
 
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            <button
+              onClick={toggleTheme}
+              style={{
+                padding: '4px 12px',
+                borderRadius: 6,
+                border: '1px solid #333',
+                color: 'white',
+                backgroundColor: 'transparent',
+                cursor: 'pointer',
+              }}>
+              {theme === 'light' ? '🌙 Dark Mode' : '☀️ Light Mode'}
+            </button>
             {user && (
               <Box
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
                   gap: 1,
-                  bgcolor: '#f5f5f5',
+                  color: 'black',
+                  bgcolor: '#d7d7d7',
                   p: '4px 8px',
                   borderRadius: 2,
                 }}>
@@ -87,7 +95,7 @@ export default function Topbar({ pageTitle }: { pageTitle?: string }) {
             </Button>
           </Box>
         </Toolbar>
-      </AppBar>
+      </div>
 
       {isMobile && (
         <Sidebar mobileOpen={mobileOpen} onClose={() => setMobileOpen(false)} />

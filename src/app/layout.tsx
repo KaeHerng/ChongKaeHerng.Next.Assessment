@@ -5,6 +5,7 @@ import { CssBaseline } from '@mui/material';
 import { Provider } from 'react-redux';
 import { store, persistor } from '@/store';
 import { PersistGate } from 'redux-persist/integration/react';
+import { ThemeProvider } from '@/context/ThemeContext';
 import './globals.css';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -14,7 +15,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
             <CssBaseline />
-            {children}
+            <ThemeProvider>
+              {children}
+            </ThemeProvider>
           </PersistGate>
         </Provider>
       </body>

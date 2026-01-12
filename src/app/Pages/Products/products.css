@@ -1,4 +1,31 @@
+:root {
+  --foreground: #171717;
+  --tableback: #fff;
+  --tableheader: #fafafa;
+  --labelcolor: #666;
+  --chartback: white;
+  --bordertable: #f0f0f0;
+  --tablehover: #f9fbff;
+  --searchborder: #525252;
+  --activeback: #e6f4ea;
+  --inactiveback: #fdecea;
+}
+
+html[data-theme='dark'] {
+  --foreground: #ededed;
+  --tableback: #1d1d1d;
+  --tableheader: #000000;
+  --labelcolor: #d6d6d6;
+  --chartback: #1d1d1d;
+  --bordertable: #6e6e6e;
+  --tablehover: #929292;
+  --searchborder: #6e6e6e;
+  --activeback: #aec4b5;
+  --inactiveback: #c5aaa7;
+}
+
 .products-page {
+  color: var(--foreground);
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -47,7 +74,7 @@
 /* ------- table Css --------- */
 
 .products-table-wrapper {
-  background: #fff;
+  background: var(--tableback);
   border-radius: 12px;
   padding: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
@@ -70,9 +97,9 @@
   flex-direction: row;
   padding: 12px 16px;
   align-items: center;
-  background: #fafafa;
+  background: var(--tableheader);
   font-weight: 600;
-  color: #555;
+  /* color: #555; */
   position: sticky;
   top: 0;
   z-index: 2;
@@ -88,12 +115,12 @@
   flex-direction: row;
   padding: 12px 16px;
   align-items: center;
-  border-top: 1px solid #f0f0f0;
+  border-top: 1px solid var(--bordertable);
   transition: background 0.2s;
 }
 
 .table-row:hover {
-  background: #f9fbff;
+  background: var(--tablehover);
 }
 
 .actions {
@@ -108,12 +135,12 @@
 }
 
 .status.active {
-  background: #e6f4ea;
+  background: var(--activeback);
   color: #2e7d32;
 }
 
 .status.inactive {
-  background: #fdecea;
+  background: var(--inactiveback);
   color: #c62828;
 }
 

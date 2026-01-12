@@ -16,7 +16,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import AdminLayout from '@/components/layout/AdminLayout';
-import { fetchProducts, addProduct, updateProduct, deleteProduct } from '../../api';
+import { fetchProducts, addProduct, updateProduct, deleteProduct } from '../../../api';
 import ImageSlider from '@/components/ImageSlider';
 
 type ProductStatus = 'active' | 'inactive';
@@ -228,6 +228,20 @@ export default function ProductsPage() {
 
                     <div className="products-filters">
                         <TextField
+                            sx={{
+                              minWidth: 200,
+                              '& .MuiInputBase-input': {
+                                color: 'var(--foreground)',
+                              },
+                              '& .MuiOutlinedInput-root': {
+                                '& fieldset': {
+                                  borderColor: 'var(--searchborder)',
+                                },
+                                '&:hover fieldset': {
+                                  borderColor: 'var(--foreground)',
+                                },
+                              },
+                            }}
                             size="small"
                             placeholder="Search..."
                             value={search}
@@ -236,6 +250,19 @@ export default function ProductsPage() {
 
                         <TextField
                             size="small"
+                            sx={{
+                              '& .MuiInputBase-input': {
+                                color: 'var(--foreground)',
+                              },
+                              '& .MuiOutlinedInput-root': {
+                                '& fieldset': {
+                                  borderColor: 'var(--searchborder)',
+                                },
+                                '&:hover fieldset': {
+                                  borderColor: 'var(--foreground)',
+                                },
+                              },
+                            }}
                             select
                             value={status}
                             onChange={(e) => setStatus(e.target.value as any)}>
