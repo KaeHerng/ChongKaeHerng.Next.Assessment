@@ -99,32 +99,38 @@ export default function UsersPage() {
           </div>
         </div>
 
-        <div className="users-table">
-          <div className="table-header">
-            <div>Name</div>
-            <div>Email</div>
-            <div>Role</div>
-            <div>Status</div>
-            <div>Actions</div>
-          </div>
-
-          {filtered.map((user) => (
-            <div key={user.id} className="table-row">
-              <div>{user.name}</div>
-              <div>{user.email}</div>
-              <div>{user.role}</div>
-              <div>
-                <span className={`status-${user.status}`}>{user.status}</span>
-              </div>
-              <div>
-                <button
-                  className="edit-btn"
-                  onClick={() => openEdit(user)}>
-                  Edit
-                </button>
-              </div>
+        <div className="products-table-wrapper">
+            <div className="product-table">
+                <div className="table-header text-sm">
+                    <div style={{ minWidth: 100, width: 'calc(100%)'}}>Name</div>
+                    <div style={{ minWidth: 100, width: 'calc(100%)'}}>Email</div>
+                    <div style={{ minWidth: 100, width: 'calc(100%)'}}>Role</div>
+                    <div style={{ minWidth: 100, width: 'calc(100%)'}}>Status</div>
+                    <div style={{ minWidth: 100, width: 'calc(100%)'}} className="actions">Actions</div>
+                </div>
+                {filtered.length === 0 && <div className='text-sm' style={{ textAlign: 'center', padding: 10 }}>= No users =</div>}
+                {filtered.length > 0 && 
+                <div className="table-body text-sm">
+                    {filtered.map((user) => (
+                        <div key={user.id} className="table-row">
+                            <div style={{ minWidth: 100, width: 'calc(100%)'}}>{user.name}</div>
+                            <div style={{ minWidth: 100, width: 'calc(100%)'}}>{user.email}</div>
+                            <div style={{ minWidth: 100, width: 'calc(100%)'}}>{user.role}</div>
+                            <div style={{ minWidth: 100, width: 'calc(100%)'}}>
+                                <span className={`status-${user.status}`}>
+                                    {user.status}
+                                </span>
+                            </div>
+                            <div className="actions" style={{ minWidth: 100, width: 'calc(100%)'}}>
+                                <div className="details-button" onClick={() => openEdit(user)}>
+                                    Edit
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+                }
             </div>
-          ))}
         </div>
 
         {/* Modal */}

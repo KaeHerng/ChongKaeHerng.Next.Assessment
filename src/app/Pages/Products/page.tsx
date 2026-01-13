@@ -314,7 +314,7 @@ export default function ProductsPage() {
                         }
                     </div>
                 </div>
-
+                
                 <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth="sm">
                   <DialogTitle>{editing ? 'Edit Product' : 'New Product'}</DialogTitle>
                   <DialogContent>
