@@ -83,11 +83,25 @@ export default function UsersPage() {
 
   return (
     <AdminLayout>
-      <div>
+      <div className='users-page'>
         <div className="users-header">
           <h2>User Management</h2>
           <div className='users-filters'>
             <TextField
+                sx={{
+                  minWidth: 200,
+                  '& .MuiInputBase-input': {
+                    color: 'var(--foreground)',
+                  },
+                  '& .MuiOutlinedInput-root': {
+                    '& fieldset': {
+                      borderColor: 'var(--searchborder)',
+                    },
+                    '&:hover fieldset': {
+                      borderColor: 'var(--foreground)',
+                    },
+                  },
+                }}
                 size="small"
                 placeholder="Search..."
                 value={search}
@@ -117,7 +131,7 @@ export default function UsersPage() {
                             <div style={{ minWidth: 100, width: 'calc(100%)'}}>{user.email}</div>
                             <div style={{ minWidth: 100, width: 'calc(100%)'}}>{user.role}</div>
                             <div style={{ minWidth: 100, width: 'calc(100%)'}}>
-                                <span className={`status-${user.status}`}>
+                                <span className={`status ${user.status}`}>
                                     {user.status}
                                 </span>
                             </div>

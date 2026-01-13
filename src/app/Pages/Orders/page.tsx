@@ -51,7 +51,7 @@ export default function OrdersPage() {
 
   return (
     <AdminLayout>
-      <div>
+      <div className='orders-page'>
         <h2 className='text-lg' style={{ marginBottom: 16 }}>Orders Management</h2>
 
         <div className="orders-header">
@@ -90,7 +90,7 @@ export default function OrdersPage() {
                             <div style={{ minWidth: 100, width: 'calc(100%)'}}>{order.date}</div>
                             <div style={{ minWidth: 100, width: 'calc(100%)'}}>RM {order.total.toFixed(2)}</div>
                             <div style={{ minWidth: 100, width: 'calc(100%)'}}>
-                                <span className={`status-${order.status}`}>
+                                <span className={`status ${order.status}`}>
                                     {order.status}
                                 </span>
                             </div>

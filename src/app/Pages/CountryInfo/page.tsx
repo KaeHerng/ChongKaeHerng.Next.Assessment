@@ -62,6 +62,20 @@ export default function CountriesPage() {
 
           <div className="countries-filters text-sm">
             <TextField
+              sx={{
+                minWidth: 200,
+                '& .MuiInputBase-input': {
+                  color: 'var(--foreground)',
+                },
+                '& .MuiOutlinedInput-root': {
+                  '& fieldset': {
+                    borderColor: 'var(--searchborder)',
+                  },
+                  '&:hover fieldset': {
+                    borderColor: 'var(--foreground)',
+                  },
+                },
+              }}
               size="small"
               placeholder="Search country or Code..."
               value={search}
