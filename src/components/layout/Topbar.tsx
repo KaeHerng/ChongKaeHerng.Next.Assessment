@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { AppBar, Box, Toolbar, Typography, Button, Avatar } from '@mui/material';
+import { Box, Toolbar, Button, Avatar } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import Sidebar from './Sidebar';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';

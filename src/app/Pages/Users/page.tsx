@@ -1,15 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import {
-  Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  TextField,
-  MenuItem,
-} from '@mui/material';
+import { useEffect, useState, useMemo } from 'react';
+import { Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem } from '@mui/material';
 import AdminLayout from '@/components/layout/AdminLayout';
 import { mockUsers } from './mockUsers';
 import './users.css';
@@ -29,6 +21,7 @@ export interface User {
 export default function UsersPage() {
   const [users, setUsers] = useState<User[]>([]);
   const [open, setOpen] = useState(false);
+  const [search, setSearch] = useState('');
   const [editing, setEditing] = useState<User | null>(null);
 
   const [form, setForm] = useState({
@@ -80,14 +73,30 @@ export default function UsersPage() {
     setOpen(false);
   };
 
+  const filtered = useMemo(() => {
+    return users.filter((item) => {
+      const matchText = item.name.toLowerCase().includes(search.toLowerCase());
+
+      return matchText;
+    })
+  }, [search, users])
+
   return (
     <AdminLayout>
       <div>
         <div className="users-header">
           <h2>User Management</h2>
-          <Button variant="contained" onClick={openCreate}>
-            Create User
-          </Button>
+          <div className='users-filters'>
+            <TextField
+                size="small"
+                placeholder="Search..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+            />
+            <Button variant="contained" onClick={openCreate}>
+              Create User
+            </Button>
+          </div>
         </div>
 
         <div className="users-table">
@@ -99,19 +108,18 @@ export default function UsersPage() {
             <div>Actions</div>
           </div>
 
-          {users.map((u) => (
-            <div key={u.id} className="table-row">
-              <div>{u.name}</div>
-              <div>{u.email}</div>
-              <div>{u.role}</div>
+          {filtered.map((user) => (
+            <div key={user.id} className="table-row">
+              <div>{user.name}</div>
+              <div>{user.email}</div>
+              <div>{user.role}</div>
               <div>
-                <span className={`status-${u.status}`}>{u.status}</span>
+                <span className={`status-${user.status}`}>{user.status}</span>
               </div>
               <div>
                 <button
                   className="edit-btn"
-                  onClick={() => openEdit(u)}
-                >
+                  onClick={() => openEdit(user)}>
                   Edit
                 </button>
               </div>
