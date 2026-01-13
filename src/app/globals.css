@@ -178,10 +178,11 @@ a {
 }
 
 .sidebar-title {
+  text-align: center;
   font-weight: 700;
   margin-bottom: 32px;
   padding: 0 20px;
-  display: flex;
+  display: relative;
   justify-content: space-between;
   align-items: center;
   white-space: nowrap;
@@ -190,6 +191,9 @@ a {
 }
 
 .sidebar-toggle-btn {
+  position: absolute;
+  right: -10px;
+  top: 15px;
   width: 32px;
   height: 32px;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
